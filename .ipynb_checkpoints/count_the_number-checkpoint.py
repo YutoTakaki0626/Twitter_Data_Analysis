@@ -61,4 +61,44 @@ def count_the_number_of_hashtag(tweets_list):
             
     return hashtag_cnt
 
+def count_the_number_of_w(tweets_list):
+    '''
+    wの数を数える（末尾）
+    '''
+    
+    w_cnt = 0
+    w_list = []
+    
+    for tweet in tweets_list:
+        if tweet[-1]=='w':
+            w_cnt += 1
+            w_list.append(tweet)
+            
+    return w_cnt, w_list
 
+def count_the_number_of_possibility_of_w(tweets_list, warai_tweets):
+    '''
+    wで可能性のあるものを考える
+    '''
+    
+    
+    possibility_of_w_cnt = 0
+    possibility_of_w_list = []
+    
+    w_cnt = 0
+    w_list = []
+
+    for tweet in tweets_list:
+        if re.search(r'w', tweet) is not None:
+            possibility_of_w_cnt += 1
+            possibility_of_w_list.append(tweet)
+            
+    for search_tweet in possibility_of_w_list:
+        for warai_tweet in warai_tweets:
+            if search_tweet == warai_tweet:
+                break
+            break
+        w_cnt += 1
+        w_list.append(search_tweet)
+            
+    return w_cnt, w_list
