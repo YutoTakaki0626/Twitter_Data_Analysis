@@ -13,12 +13,6 @@ def count_the_number_of_mixed_tweet(tweets_list):
     for tweet in tweets_list:
         splited_list = tweet.split(None)
         for split in splited_list:
-            if split[0] == '@':
-                continue
-            if re.search(r'http', split) is not None:
-                continue
-            if re.search(r'#', split) is not None:
-                continue
             for alphabet in alphabet_list:
                 if re.search(r'{}'.format(alphabet), split) is not None:
                     contained_cnt += 1

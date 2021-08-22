@@ -29,7 +29,7 @@ def count_the_number_of_user_mention(tweets_list):
             user_mention_cnt += 1
             user_mention_list.append(tweet)
             
-    return user_mention_cnt
+    return user_mention_cnt, user_mention_list
 
 def count_the_number_of_url(tweets_list):
     '''
@@ -38,13 +38,16 @@ def count_the_number_of_url(tweets_list):
 
     url_cnt = 0
     url_list = []
+    other = []
 
     for tweet in tweets_list:
         if re.search(r'http', tweet) is not None:
             url_cnt += 1
             url_list.append(tweet)
+        else:
+            other.append(tweet)
             
-    return url_cnt
+    return url_cnt, url_list, other
 
 def count_the_number_of_hashtag(tweets_list):
     '''
