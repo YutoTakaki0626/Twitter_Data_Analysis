@@ -1,21 +1,5 @@
 import re
 
-def improve_new_line(strings):
-    '''
-    \nを除去する処理
-    '''
-    new_list = []
-
-    for st in strings:
-        while re.search(r'\n', st):
-            an = re.search(r'\n', st)
-            start = an.span()[0]
-            end = an.span()[1]
-            st = str(st[:start]) + str(st[end:])
-        new_list.append(st)
-        
-    # return new_list
-
 def count_the_number_of_user_mention(tweets_list):
     '''
     ユーザーメンションの個数を数える
@@ -23,11 +7,21 @@ def count_the_number_of_user_mention(tweets_list):
     
     user_mention_cnt = 0
     user_mention_list = []
+    not_user_mention_list = []
 
     for tweet in tweets_list:
         if tweet[0] == '@':
             user_mention_cnt += 1
             user_mention_list.append(tweet)
+        else:
+            not_user_mention_list.append(tweet)
+
+    for tweet in not_user_mention_list:
+        if re.search(r'@[0-9a-zA-Z_]+\s', tweet) is not None:
+            user_mention_cnt += 1
+            user_mention_list.append(tweet)
+        else:
+            not_user_mention_list.append(tweet)
             
     return user_mention_cnt, user_mention_list
 
@@ -38,16 +32,13 @@ def count_the_number_of_url(tweets_list):
 
     url_cnt = 0
     url_list = []
-    other = []
 
     for tweet in tweets_list:
         if re.search(r'http', tweet) is not None:
             url_cnt += 1
             url_list.append(tweet)
-        else:
-            other.append(tweet)
             
-    return url_cnt, url_list, other
+    return url_cnt, url_list
 
 def count_the_number_of_hashtag(tweets_list):
     '''
@@ -71,12 +62,25 @@ def count_the_number_of_w(tweets_list):
     
     w_cnt = 0
     w_list = []
+    w_not_list = []
     
     for tweet in tweets_list:
+        
+        if len(tweet) == 0:
+            continue
         if tweet[-1]=='w':
             w_cnt += 1
             w_list.append(tweet)
-            
+        else:
+            w_not_list.append(tweet)
+        
+    for tweet in w_not_list:
+        if re.search(r'ww+', tweet) is not None:
+            w_cnt += 1
+            w_list.append(tweet)
+        else:
+            w_not_list.append(tweet)
+
     return w_cnt, w_list
 
 def count_the_number_of_possibility_of_w(tweets_list, warai_tweets):
