@@ -131,6 +131,9 @@ def remove_hashtag_words(tweets_list):
         removed_list.append(tweet)
     return removed_list
 
+
+def remove_hashtag_a_series_of_words(tweets_list):
+
     removed_list = []
 
     for tweet in tweets_list:
