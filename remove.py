@@ -1,7 +1,7 @@
 import re
 import string
 
-def improve_new_line(strings):
+def remove_new_line_marks(strings):
     '''
     \nを除去する処理
     '''
@@ -17,12 +17,36 @@ def improve_new_line(strings):
         
     return new_list
 
+def remove_all_blanks(strings):
+    '''
+    全空白を除去する処理
+    '''
+    new_list = []
+
+    for st in strings:
+        while re.search(r'\u3000', st):
+            an = re.search(r'\u3000', st)
+            start = an.span()[0]
+            end = an.span()[1]
+            st = str(st[:start]) + str(st[end:])
+        new_list.append(st)
+        
+    return new_list
 
 def remove_usermention(tweets_list):
     '''
     ユーザーメンションを除去する処理
     '''
+
+    lower_list = list(string.ascii_lowercase)
+    upper_list = list(string.ascii_uppercase)
+    alphabet_list = lower_list + upper_list
+    alphabet_list.append('_')
+
+    removed = []
     removed_list = []
+    not_removed_list = []
+    removed_list_complete = []
 
     for tweet in tweets_list:
         while re.search(r'@[0-9a-zA-Z_]+\s', tweet) is not None:
@@ -30,7 +54,19 @@ def remove_usermention(tweets_list):
             start = an.span()[0]
             end = an.span()[1]
             tweet = str(tweet[:start]) + str(tweet[end:])
-        removed_list.append(tweet)
+        removed.append(tweet)
+
+    for tweet in removed:
+        if tweet is not None:
+            if tweet[0] == '@':
+                for idx, st in enumerate(tweet[1:]):
+                    if st not in alphabet_list:
+                        removed_list.append(tweet[idx+1:])
+                        break
+            else:
+                removed_list.append(tweet)
+        else:
+            removed_list.append(tweet)
 
     return removed_list
 
@@ -73,6 +109,20 @@ def remove_hashtag_words(tweets_list):
     '''
     ハッシュタグのみを除去する処理
     '''
+    removed_list = []
+    removed_cnt = 0
+
+    for tweet in tweets_list:
+        if re.search(r'#', tweet) is not None:
+            removed_cnt += 1
+        while re.search(r'#', tweet) is not None:
+            an = re.search(r'#', tweet)
+            start = an.span()[0]
+            end = an.span()[1]
+            tweet = str(tweet[:start]) + str(tweet[end:])
+        removed_list.append(tweet)
+    return removed_list
+
     removed_list = []
 
     for tweet in tweets_list:

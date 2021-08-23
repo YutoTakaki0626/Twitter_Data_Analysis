@@ -4,24 +4,21 @@ def count_the_number_of_user_mention(tweets_list):
     '''
     ユーザーメンションの個数を数える
     '''
-    
-    user_mention_cnt = 0
+
     user_mention_list = []
-    not_user_mention_list = []
 
     for tweet in tweets_list:
         if tweet[0] == '@':
-            user_mention_cnt += 1
             user_mention_list.append(tweet)
-        else:
-            not_user_mention_list.append(tweet)
 
-    for tweet in not_user_mention_list:
         if re.search(r'@[0-9a-zA-Z_]+\s', tweet) is not None:
-            user_mention_cnt += 1
             user_mention_list.append(tweet)
-        else:
-            not_user_mention_list.append(tweet)
+
+        if re.search(r'@[0-9a-zA-Z_]{4,}', tweet) is not None:
+            user_mention_list.append(tweet)
+
+    user_mention_list = list(set(user_mention_list))
+    user_mention_cnt = len(user_mention_list)
             
     return user_mention_cnt, user_mention_list
 
