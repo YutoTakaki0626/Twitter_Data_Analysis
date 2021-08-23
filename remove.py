@@ -68,7 +68,15 @@ def remove_usermention(tweets_list):
         else:
             removed_list.append(tweet)
 
-    return removed_list
+    for tweet in removed_list:
+        while re.search(r'@[0-9a-zA-Z_]{4,14}', tweet) is not None:
+            an = re.search(r'@[0-9a-zA-Z_]{4,14}', tweet)
+            start = an.span()[0]
+            end = an.span()[1]
+            tweet = str(tweet[:start]) + str(tweet[end:])
+        removed_list_complete.append(tweet)
+
+    return removed_list_complete
 
 
 def remove_url(tweets_list):
