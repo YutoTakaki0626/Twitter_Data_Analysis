@@ -50,7 +50,7 @@ def count_the_number_of_hashtag(tweets_list):
             hashtag_cnt += 1
             hashtag_list.append(tweet)
             
-    return hashtag_cnt
+    return hashtag_cnt, hashtag_list
 
 def count_w(tweets_list):
     hashtag_cnt = 0
