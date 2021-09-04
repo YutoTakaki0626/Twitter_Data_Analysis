@@ -113,24 +113,6 @@ def remove_hashtag(tweets_list):
         removed_list.append(tweet)
     return removed_list
 
-def remove_hashtag_words(tweets_list):
-    '''
-    ハッシュタグのみを除去する処理
-    '''
-    removed_list = []
-    removed_cnt = 0
-
-    for tweet in tweets_list:
-        if re.search(r'#', tweet) is not None:
-            removed_cnt += 1
-        while re.search(r'#', tweet) is not None:
-            an = re.search(r'#', tweet)
-            start = an.span()[0]
-            end = an.span()[1]
-            tweet = str(tweet[:start]) + str(tweet[end:])
-        removed_list.append(tweet)
-    return removed_list
-
 
 def remove_hashtag_a_series_of_words(tweets_list):
 
@@ -146,5 +128,32 @@ def remove_hashtag_a_series_of_words(tweets_list):
 
     return removed_list
 
+def remove_w(tweets_list):
+    
+    '''
+    wを除去する処理
+    '''
+    
+    w_list = []
+    
+    for tweet in tweets_list:
+        twee = []
+        contexts = tweet.strip()
+        for context in contexts:
+            while context[-1] == 'w':
+                    twee += context[:-1]
+        w_list.append(twee)
+        
+    return w_list
+        
+        
+#     for tweet in tweets_list:
+#         if re.search(r'ww+', tweet) is not None:
+#             if tweet[-1] != 'w':
+#                 w_list.append(tweet)
+
+#     w_list = list(set(w_list))
+
+#     return w_list
 
 
